@@ -1,34 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [list, setList] = useState([]);
+  const [item, setItem] = useState('');
+
+  const addToList = () => {
+    event.preventDefault();
+    setList(prevState => {
+      return [
+        ...prevState, 
+        item
+      ]
+    })
+    setItem('');
+  }
+  const handleInput = (event) => {
+    setItem(event.target.value);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div class="flex flex-col items-center gap-6">
+      <div class="flex flex-col gap-6">
+        <h1 class="text-xxl">To do List</h1>
+        <form class="flex flex-col gap-6" action="submit" method='get' onSubmit={addToList}>
+          <div>
+              <label htmlFor="input">Add new item</label>
+              <input class="input" id='input' type="text" value={item} onChange={handleInput} />
+              <button class="btn btn-primary" type='submit'>Save</button>
+          </div>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div class="flex flex-col gap-6">
+        <h2 class="text-xl">List:</h2>
+        <ul>
+        {
+          list.length > 0 &&
+            list.map((item, index) => 
+              <li key={index}>
+              {item}
+              </li>
+            )
+        }
+        </ul>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
